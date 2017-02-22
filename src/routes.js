@@ -2,13 +2,13 @@
 import React from 'react';
 import { IndexRoute, Route } from 'react-router';
 
-import App from './app';
-import Home from './home';
-import SignIn from './signin';
-import SignUp from './signup';
+import Layout from './components/layout';
+import Home from './components/home';
+import SignIn from './components/signin';
+import SignUp from './components/signup';
 
 const routes = (
-  <Route path="/" component={App} >
+  <Route path="/" component={Layout} >
     <IndexRoute component={Home} />
     <Route path="/signin" component={SignIn} />
     <Route path="/signup" component={SignUp} />

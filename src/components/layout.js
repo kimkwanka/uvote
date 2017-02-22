@@ -3,7 +3,7 @@
 import React from 'react';
 import Nav from './nav';
 
-class App extends React.Component {
+class Layout extends React.Component {
   render() {
     return (
       <div>
@@ -25,9 +25,9 @@ class App extends React.Component {
     );
   }
 }
-App.propTypes = {
+Layout.propTypes = {
   children: React.PropTypes.node,
 };
-App.defaultProps = () => ({ children: null });
+Layout.defaultProps = () => ({ children: null });
 
-export default App;
+export default Layout;

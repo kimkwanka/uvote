@@ -1,20 +1,26 @@
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
-import { IndexLink, Link } from 'react-router';
+import Nav from './nav';
 
 class App extends React.Component {
   render() {
     return (
       <div>
-        <h1>Index</h1>
-        <ul role="navigation">
-          <li><IndexLink to="/" activeStyle={{ color: 'red' }} activeClassName="active">Home</IndexLink></li>
-          <li><Link to="/about" activeStyle={{ color: 'red' }} activeClassName="active">About</Link></li>
-          <li><Link to="/contact" activeStyle={{ color: 'red' }} activeClassName="active">Contact</Link></li>
-          <li><Link to="/contact/Abe/Simpson" activeStyle={{ color: 'red' }} activeClassName="active">Contact With Param</Link></li>
-        </ul>
-        {this.props.children}
+        <header>
+          <div className="container">
+            <div className="navLogo">
+              <h2>uVote</h2>
+            </div>
+            <Nav />
+            <div className="navUser">
+              <h4>Hello, Quincy</h4>
+            </div>
+          </div>
+        </header>
+        <main>
+          {this.props.children}
+        </main>
       </div>
     );
   }

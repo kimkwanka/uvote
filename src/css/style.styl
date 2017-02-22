@@ -1,2 +1,81 @@
+@import '../../node_modules/jeet/styl/index'
+
+$cBack = white
+$cBack2 = #5C415D
+$cHeaderT = white
+$cLink = $cHeaderT
+$cAccent = #E94F37
+
+*
+    box-sizing border-box
+    
 body
-    background yellow
+    background $cBack
+    margin 0
+
+header
+    background $cBack2
+    color $cHeaderT
+
+.navLogo
+    float left
+    display inline-block
+    h2
+        margin 0
+        padding 0
+
+.nav
+    list-style: none
+    float: right
+    margin 0
+    padding 0
+.navUser
+    float: right
+    margin 0
+    margin-top 7px
+    padding  0px 20px
+    h4
+        margin 0
+.navItem
+    transition all 0.5s ease-out
+    display: inline-block
+    padding 10px 20px
+    margin 0
+    color $cLink
+    &:hover
+        background $cAccent
+        color $cLink
+.active
+     box-shadow: 0px 2px $cAccent
+
+.container
+    center(1080px)
+
+.poll
+    position relative
+    border: 1px solid #fafafa
+    box-shadow: 1px 1px 3px gray
+    border-radius 7px
+    margin-bottom 30px
+    column(1/2.1)
+
+.pollDeleteButton
+    position absolute
+    top 5px
+    right 5px
+    padding 12px
+    line-height: 4px
+    font-size 130%
+    border-radius: 50%
+    border none
+    
+.pollQuestion
+    margin-top 20px
+    text-align: center
+
+.pollButton
+    display: inline-block
+    width: 99%
+    margin 2px 0.5%
+    
+    

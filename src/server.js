@@ -7,6 +7,13 @@ const serverRenderer = require('./server.render.js').default;
 const express = require('express');
 const path = require('path');
 
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const passport = require('passport');
+const GitHubStrategy = require('passport-github2').Strategy;
+const GITHUB_CLIENT_ID = "106f05fc7654ddbdb3bc";
+const GITHUB_CLIENT_SECRET = "c9b48b1d7868a0262bac584061017a9ac5dfec12";
+
 const app = express();
 
 const PORT = process.env.PORT || 8080;
@@ -21,9 +28,72 @@ webpackDevHelper.useWebpackMiddleware(app);
 
 // Serve static assets when in production
 //app.use(express.static(path.join(__dirname, '../public')));
+passport.use(new GitHubStrategy({
+    clientID: GITHUB_CLIENT_ID,
+    clientSecret: GITHUB_CLIENT_SECRET,
+    callbackURL: "http://127.0.0.1:8080/auth/github/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    // asynchronous verification, for effect...
+    process.nextTick(function () {      
+      return done(null, profile);
+    });
+  }
+));
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
+app.use(session({ secret: '11THIS IS A SECRET STRING AND STUFF FOR HASHING THE SESSION11', resave: false, saveUninitialized: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+
+
+app.post('/login',
+  passport.authenticate('github', { scope: [ 'user:email' ] }),
+  function(req, res){
+    // The request will be redirected to GitHub for authentication, so this
+    // function will not be called.
+  });
+
+// GET /auth/github/callback
+//   Use passport.authenticate() as route middleware to authenticate the
+//   request.  If authentication fails, the user will be redirected back to the
+//   login page.  Otherwise, the primary route function will be called,
+//   which, in this example, will redirect the user to the home page.
+app.get('/auth/github/callback', 
+  passport.authenticate('github', { failureRedirect: '/' }),
+  function(req, res) {
+    res.redirect(`/account/${req.user.username}`);
+  });
+
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  res.redirect('/')
+}
+function ensureUsername(req, res, next) {
+  console.log(req.user.username, req.params.username);
+  if (req.user.username == req.params.username) { return next(); }
+  res.redirect('/')
+}
+
+app.get('/account/:username', ensureAuthenticated, ensureUsername, (req, res, next) => {
+    next();
+});
+
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
 
 // Handle server-side React + React-Routes as Express middleware
-app.use(serverRenderer());
+app.get('*', serverRenderer());
 
 app.listen(PORT, () => {
   console.log(`Express server running at ${PORT}`);

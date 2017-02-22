@@ -7,8 +7,8 @@ class SignIn extends React.Component {
     return (
       <div className="container">
         <h1>SignIn</h1>
-        <a className="button" href="/">Sign in with Github</a>
-        <form action="post">
+        <a className="button" href="/login">Sign in with Github</a>
+        <form method="post" action="/login">
           <label htmlFor="email">Email:</label>
           <input id="email" type="text" placeholder="Your email address" />
           <label htmlFor="pw">Password:</label>

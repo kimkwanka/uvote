@@ -7,6 +7,7 @@ const express = require('express');
 
 export default function serverRenderer() {
   return (req, res, next) => {
+    console.log('Session:', req.session);
     match({ routes, location: req.url }, (err, redirect, props) => {
       if (err) {
         res.status(500).send(err.message);
@@ -15,10 +16,12 @@ export default function serverRenderer() {
         // route is entered, it can redirect. Here we handle on the server.
         res.redirect(redirect.pathname + redirect.search);
       } else if (props) {
+        console.log("PROPS:", props);
         const appHtml = renderToString(<RouterContext {...props} />);        
-        res.status(200).render('index',{content: appHtml,title: 'uVote',});
+        res.status(200).render('index',{content: appHtml, title: 'uVote',});
       } else {
-        res.status(404).send('Not Found');
+        next();
+        //res.status(404).send('Not Found');
       }
     });    
   }

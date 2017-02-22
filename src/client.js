@@ -12,10 +12,12 @@ import store from './store';
 require('!style-loader!css-loader!stylus-loader!./css/style.styl');
 // Only require and let ExtractTextPlugin write a .css file in production
 // require("./css/style.styl");
+
 store.subscribe(()=>{
   console.log('Changed:', store.getState());
 });
-store.dispatch({type:"INC",val: 3});
+store.dispatch({type:"ADD",val: 3});
+
 render(
   <Provider store={store}>
     <Router routes={routes} history={browserHistory} />

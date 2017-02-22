@@ -3,7 +3,10 @@
 import React from 'react';
 import Poll from './poll';
 
+import { connect } from 'react-redux';
+
 class Dashboard extends React.Component {
+  
   render() {
     return (
       <div className="container">

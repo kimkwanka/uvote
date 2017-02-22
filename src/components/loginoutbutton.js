@@ -8,24 +8,23 @@ import { login, logout } from '../actions/userActions';
   }
 })
 class LogInOutButton extends React.Component {
-  
-  handleClick = (e) => {
+  handleClick (e) {
     e.preventDefault();
     if(this.props.user.loggedIn){
       this.props.dispatch(logout());
     } else {
-      this.props.dispatch(login('Kesserasdasd'));
-    }      
+      this.props.dispatch(login('Kesserasdasd'));      
+    }
   }
   render() {
     let text;
-    if(this.props.user.loggedIn){
+    if(this.props.user && this.props.user.loggedIn){
       text = 'Logout';
     } else {
       text = 'Login';
     }
     return (
-      <a href="/" onClick={this.handleClick}><li className="navItem">{text}</li></a>      
+      <a href="/" onClick={(e) => this.handleClick(e)} ><li className="navItem">{text}</li></a>      
     );
   }
 }

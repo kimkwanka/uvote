@@ -11,8 +11,8 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('passport');
 const GitHubStrategy = require('passport-github2').Strategy;
-const GITHUB_CLIENT_ID = "106f05fc7654ddbdb3bc";
-const GITHUB_CLIENT_SECRET = "c9b48b1d7868a0262bac584061017a9ac5dfec12";
+const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
+const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 
 const app = express();
 
@@ -52,21 +52,12 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-
-
 app.post('/login',
   passport.authenticate('github', { scope: [ 'user:email' ] }),
   function(req, res){
     // The request will be redirected to GitHub for authentication, so this
     // function will not be called.
   });
-
-// GET /auth/github/callback
-//   Use passport.authenticate() as route middleware to authenticate the
-//   request.  If authentication fails, the user will be redirected back to the
-//   login page.  Otherwise, the primary route function will be called,
-//   which, in this example, will redirect the user to the home page.
 app.get('/auth/github/callback', 
   passport.authenticate('github', { failureRedirect: '/' }),
   function(req, res) {

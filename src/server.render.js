@@ -2,23 +2,40 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 import routes from './routes';
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import { createInitialStore, getInitialStore} from './store';
 
 const express = require('express');
 
 export default function serverRenderer() {
   return (req, res, next) => {
-    console.log('Session:', req.session);
+    
     match({ routes, location: req.url }, (err, redirect, props) => {
       if (err) {
         res.status(500).send(err.message);
-      } else if (redirect) {
-        // we haven't talked about `onEnter` hooks on routes, but before a
-        // route is entered, it can redirect. Here we handle on the server.
+      } else if (redirect) {       
         res.redirect(redirect.pathname + redirect.search);
       } else if (props) {
-        console.log("PROPS:", props);
-        const appHtml = renderToString(<RouterContext {...props} />);        
-        res.status(200).render('index',{content: appHtml, title: 'uVote',});
+        let store;
+        let state = {
+          user: {
+              loggedIn: false,
+              name: null,
+            }
+        };
+        if(req.user){
+          state = {
+            user: {
+              loggedIn: true,
+              name: req.user.username,
+            }
+          }
+        }
+        store = createInitialStore(state);
+
+        const appHtml = renderToString(<Provider store={store}><RouterContext {...props} /></Provider>);
+        res.status(200).render('index',{content: appHtml, preloadedState:store.getState(), title: 'uVote',});
       } else {
         next();
         //res.status(404).send('Not Found');

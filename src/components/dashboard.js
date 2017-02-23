@@ -13,7 +13,7 @@ import { login, logout } from '../actions/userActions';
 })
 class Dashboard extends React.Component {
   componentDidMount(){
-    this.props.dispatch(login(this.props.params.username));
+    //this.props.dispatch(login(this.props.params.username));
   }
   render() {
     return (

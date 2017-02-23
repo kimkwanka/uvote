@@ -3,14 +3,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Nav from './nav';
-import { login, logout } from '../actions/userActions';
 
-
-@connect((store) => {
-  return {
-    user: store.user,
-  }
-})
+//@connect((store) => {
+//  return {
+//    user: store.user,
+//  }
+//})
 class Layout extends React.Component {
   render() {
     let navUserName = null;
@@ -43,4 +41,8 @@ Layout.propTypes = {
 };
 Layout.defaultProps = () => ({ children: null });
 
-export default Layout;
+function mapStateToProps (state) {
+  return { user: state.user };
+}
+export default connect(mapStateToProps)(Layout);
+//export default Layout;

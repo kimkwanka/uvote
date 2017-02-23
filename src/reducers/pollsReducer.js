@@ -3,17 +3,15 @@ const poll = (state = {}, action) => {
     default:
       return state;
   }
-}
+};
 
 const polls = (state = [], action) => {
   switch (action.type) {
     case 'ADD':
-      return [...state, {name:'hello', val: action.val}];
-      break;
+      return [...state, { name: 'hello', val: action.val }];
     default:
       return state;
-      break;
   }
-}
+};
 
 export default polls;

@@ -15,7 +15,7 @@ require('!style-loader!css-loader!stylus-loader!./css/style.styl');
 // Only require and let ExtractTextPlugin write a .css file in production
 // require("./css/style.styl");
 
-store.subscribe(()=>{
+store.subscribe(() => {
   console.log('Changed:', store.getState());
 });
 

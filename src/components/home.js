@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable react/prefer-stateless-function */
+
 import React from 'react';
 import SignIn from './signin';
-import Dashboard from './dashboard';
 
 class Home extends React.Component {
   render() {

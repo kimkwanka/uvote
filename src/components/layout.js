@@ -1,19 +1,19 @@
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable react/prefer-stateless-function */
+/* eslint-disable react/prop-types */
+
 import React from 'react';
 import { connect } from 'react-redux';
 import Nav from './nav';
 
-//@connect((store) => {
-//  return {
-//    user: store.user,
-//  }
-//})
+@connect(store => ({
+  user: store.user,
+}))
 class Layout extends React.Component {
   render() {
     let navUserName = null;
 
-    if(this.props.user && this.props.user.name !== null){
+    if (this.props.user && this.props.user.name !== null) {
       navUserName = <h4>Hello, {this.props.user.name}</h4>;
     }
     return (
@@ -23,7 +23,7 @@ class Layout extends React.Component {
             <div className="navLogo">
               <h2>uVote</h2>
             </div>
-            <Nav />            
+            <Nav />
             <div className="navUser">
               {navUserName}
             </div>
@@ -41,8 +41,4 @@ Layout.propTypes = {
 };
 Layout.defaultProps = () => ({ children: null });
 
-function mapStateToProps (state) {
-  return { user: state.user };
-}
-export default connect(mapStateToProps)(Layout);
-//export default Layout;
+export default Layout;

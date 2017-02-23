@@ -3,18 +3,7 @@
 import React from 'react';
 import Poll from './poll';
 
-import { connect } from 'react-redux';
-import { login, logout } from '../actions/userActions';
-
-@connect((store) => {
-  return {
-    user: store.user,
-  }
-})
 class Dashboard extends React.Component {
-  componentDidMount(){
-    //this.props.dispatch(login(this.props.params.username));
-  }
   render() {
     return (
       <div className="container">

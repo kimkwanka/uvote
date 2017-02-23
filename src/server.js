@@ -1,6 +1,9 @@
 /* eslint-disable react/jsx-filename-extension */
+/* eslint-disable consistent-return */
+/* eslint-disable no-console */
 require('babel-register')({
-   presets: [ 'es2015', 'react' ],
+  presets: ['es2015', 'react'],
+  plugins: ['transform-decorators-legacy', 'transform-class-properties'],
 });
 const serverRenderer = require('./server.render.js').default;
 
@@ -11,6 +14,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('passport');
 const GitHubStrategy = require('passport-github2').Strategy;
+
 const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 
@@ -23,27 +27,26 @@ app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'pug');
 
 // Enable Webpack Hot Reload
-webpackDevHelper = require('./hot.dev.js');
+const webpackDevHelper = require('./hot.dev.js');
+
 webpackDevHelper.useWebpackMiddleware(app);
 
 // Serve static assets when in production
-//app.use(express.static(path.join(__dirname, '../public')));
+// app.use(express.static(path.join(__dirname, '../public')));
 passport.use(new GitHubStrategy({
-    clientID: GITHUB_CLIENT_ID,
-    clientSecret: GITHUB_CLIENT_SECRET,
-    callbackURL: "http://127.0.0.1:8080/auth/github/callback"
-  },
-  function(accessToken, refreshToken, profile, done) {
+  clientID: GITHUB_CLIENT_ID,
+  clientSecret: GITHUB_CLIENT_SECRET,
+  callbackURL: 'http://127.0.0.1:8080/auth/github/callback',
+},
+  (accessToken, refreshToken, profile, done) => {
     // asynchronous verification, for effect...
-    process.nextTick(function () {      
-      return done(null, profile);
-    });
-  }
+    process.nextTick(() => done(null, profile));
+  },
 ));
-passport.serializeUser(function(user, done) {
+passport.serializeUser((user, done) => {
   done(null, user);
 });
-passport.deserializeUser(function(obj, done) {
+passport.deserializeUser((obj, done) => {
   done(null, obj);
 });
 app.use(session({ secret: '11THIS IS A SECRET STRING AND STUFF FOR HASHING THE SESSION11', resave: false, saveUninitialized: false }));
@@ -53,37 +56,36 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.post('/login',
-  passport.authenticate('github', { scope: [ 'user:email' ] }),
-  function(req, res){
+  passport.authenticate('github', { scope: ['user:email'] }),
+  (req, res) => {
     // The request will be redirected to GitHub for authentication, so this
     // function will not be called.
   });
-app.get('/auth/github/callback', 
+app.get('/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/' }),
-  function(req, res) {
+  (req, res) => {
     res.redirect(`/account/${req.user.username}`);
   });
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
-  res.redirect('/')
+  res.redirect('/');
 }
 function ensureUsername(req, res, next) {
-  console.log(req.user.username, req.params.username);
-  if (req.user.username == req.params.username) { return next(); }
-  res.redirect('/')
+  if (req.user.username === req.params.username) { return next(); }
+  res.redirect('/');
 }
 
 app.get('/account/:username', ensureAuthenticated, ensureUsername, (req, res, next) => {
-    next();
+  next();
 });
 
-app.get('/logout', function(req, res){
+app.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/');
 });
 
-// Handle server-side React + React-Routes as Express middleware
+// Handle server-side React + React-Routes
 app.get('*', serverRenderer());
 
 app.listen(PORT, () => {

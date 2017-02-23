@@ -4,7 +4,7 @@
   "main": "server.js",
   "scripts": {
     "start": "webpack-dev-server --content-base public --history-api-fallback --inline --hot",
-    "dev": "node ./src/server.js",
+    "dev": "node ./src/index.server.js",
     "build": "webpack"
   },
   "license": "MIT",

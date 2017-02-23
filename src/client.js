@@ -10,6 +10,7 @@ import routes from './routes';
 import { getInitialStore } from './store';
 
 const store = getInitialStore();
+
 // Use style-loader for dev
 require('!style-loader!css-loader!stylus-loader!./css/style.styl');
 // Only require and let ExtractTextPlugin write a .css file in production

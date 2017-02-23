@@ -1,10 +1,7 @@
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable consistent-return */
 /* eslint-disable no-console */
-require('babel-register')({
-  presets: ['es2015', 'react'],
-  plugins: ['transform-decorators-legacy', 'transform-class-properties'],
-});
+
 const serverRenderer = require('./server.render.js').default;
 
 const express = require('express');
@@ -91,7 +88,6 @@ app.get('*', serverRenderer());
 app.listen(PORT, () => {
   console.log(`Express server running at ${PORT}`);
 });
-
 
 /*
 process.on('SIGTERM', () => {

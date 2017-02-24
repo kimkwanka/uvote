@@ -5,6 +5,7 @@ $cBack2 = #5C415D
 $cHeaderT = white
 $cLink = $cHeaderT
 $cAccent = #E94F37
+$cPollButton = #9882AC
 
 *
     box-sizing border-box
@@ -48,12 +49,14 @@ nav
         color $cLink
 button, .button
     transition all 0.5s ease-out
+    box-shadow: 1px 1px 3px #aaa
 
 li.button    
     margin 0
     margin-top 4px
     margin-left 10px
     vertical-align: top
+    box-shadow: none
 .active
      box-shadow: 0px 2px $cAccent
 
@@ -62,29 +65,55 @@ li.button
 
 .poll
     position relative
+    //display flex
+    justify-content: center
     border: 1px solid #fafafa
     box-shadow: 1px 1px 3px gray
     border-radius 7px
     margin-bottom 30px
-    column(1/2.1)
+    clearfix()
 
 .pollDeleteButton
+    background: $cAccent
     position absolute
     top 5px
     right 5px
     padding 12px
     line-height: 4px
     font-size 130%
-    border-radius: 50%
+    border-radius: 7px
     border none
-    
+
 .pollQuestion
     margin-top 20px
     text-align: center
-
+.pollAuthor
+    text-align: center
+    color lightgray
+.pollOption
+    text-align: center
+    width: 99%
+    margin 10px 0.5%
+    background #efeff6
+    border-radius: 7px
+    padding 5px
+    box-shadow: 1px 1px 3px #aaa
+.pollGraph
+    width 100%
+    clearfix()
 .pollButton
+    font-family: 'Roboto'
+    text-transform: none
+    font-size 1.2em
+    font-weight: 100
     display: inline-block
     width: 99%
-    margin 2px 0.5%
+    margin 5px 0.5%
+    background $cPollButton
+    border none    
+    &:focus
+        background $cPollButton
+    &:active
+        background $cAccent
     
     

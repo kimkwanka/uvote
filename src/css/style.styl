@@ -72,9 +72,12 @@ li.button
     border-radius 7px
     margin-bottom 30px
     clearfix()
-
+a
+    .poll
+        color #606c76
 a:hover
     .poll
+        color #606c76
         border: 1px solid lighten($cAccent, 0.5)
         box-shadow: 1px 1px 3px $cAccent
 
@@ -115,9 +118,7 @@ a:hover
     width: 99%
     margin 5px 0.5%
     background $cPollButton
-    border none    
-    &:focus
-        background $cPollButton
+    border none
     &:active
         background $cAccent
     

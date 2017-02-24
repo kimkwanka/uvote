@@ -13,3 +13,11 @@ export function deletePoll(question, options) {
     options,
   };
 }
+
+export function votePoll(pollId, option) {
+  return {
+    type: 'VOTE_POLL',
+    pollId,
+    option,
+  };
+}

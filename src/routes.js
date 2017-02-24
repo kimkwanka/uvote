@@ -29,7 +29,6 @@ const getRoutes = (store) => {
     const username = nextState.params.username;
     const question = decodeURIComponent(nextState.params.question);
     if (findPoll(username, question) === -1) {
-      console.log('REDIRECTING');
       replace('/');
     }
     callback();

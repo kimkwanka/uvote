@@ -5,10 +5,22 @@
 /* eslint-disable react/no-array-index-key */
 
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import { votePoll } from '../actions/pollActions';
 
+@connect(store => ({
+  polls: store.polls,
+}))
 class Poll extends React.Component {
   componentDidMount() {
+    this.didMount = true;
+    this.renderGraph();
+  }
+  handleClick = (e) => {
+    this.props.dispatch(votePoll(this.props.pId, e.target.getAttribute('data-id')));
+  }
+  renderGraph() {
     if (window !== undefined) {
       const labels = this.props.options;
       const data = this.props.votes;
@@ -60,27 +72,37 @@ class Poll extends React.Component {
   }
   render() {
     let options = null;
-    let deleteButton = null;
+    const deleteButton = (this.props.mode === 'edit') ? <button className="pollDeleteButton" type="button">X</button> : null;
     let author = null;
-    if (!this.props.mode === 'preview') {
-      options = this.props.options.map((option, i) => (<button key={i} className="pollButton" type="button">{option}</button>));
-      deleteButton = <button className="pollDeleteButton" type="button">X</button>;
+    if (this.props.mode !== 'preview') {
+      options = this.props.options.map((option, i) => (<button key={i} data-id={i} onClick={this.handleClick} className="pollButton" type="button">{option}</button>));
       author = <h5 className="pollAuthor">by {this.props.author}</h5>;
     }
-    const encodedQ = encodeURIComponent(this.props.question); // Encode to keep question marks intact
-    const href = `/poll/${this.props.author}/${encodedQ}`;
-    return (
-      <Link to={href} activeClassName="active">
-        <div className="poll">
-          <h2 className="pollQuestion">{this.props.question}</h2>
-          {author}
-          <div className="pollGraph">
-            <canvas id={`ctx${this.props.pId}`} width="200" height="200" />
-          </div>
-          {options}
-          {deleteButton}
+    const innerContent = (
+      <div className="poll">
+        <h2 className="pollQuestion">{this.props.question}</h2>
+        {author}
+        <div className="pollGraph">
+          <canvas id={`ctx${this.props.pId}`} width="200" height="200" />
         </div>
-      </Link>
+        {options}
+        {deleteButton}
+      </div>
+    );
+    let content = (innerContent);
+    if (this.props.mode === 'preview') {
+      // Encode to keep question marks intact
+      const encodedQ = encodeURIComponent(this.props.question);
+      const href = `/poll/${this.props.author}/${encodedQ}`;
+      content = (<Link to={href} activeClassName="active">{innerContent}</Link>);
+    }
+
+    if (this.didMount) {
+      this.renderGraph();
+    }
+
+    return (
+      <div>{ content }</div>
     );
   }
 }

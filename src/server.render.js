@@ -8,14 +8,15 @@ import { createInitialStore } from './store';
 
 export default function serverRenderer() {
   return (req, res, next) => {
-    match({ routes: getRoutes(), location: req.url }, (err, redirect, props) => {
+    const state = req.user ? { user: { name: req.user.username } } : { user: { name: null } };
+    const store = createInitialStore(state);
+
+    match({ routes: getRoutes(store), location: req.url }, (err, redirect, props) => {
       if (err) {
         res.status(500).send(err.message);
       } else if (redirect) {
         res.redirect(redirect.pathname + redirect.search);
       } else if (props) {
-        const state = req.user ? { user: { name: req.user.username } } : { user: { name: null } };
-        const store = createInitialStore(state);
         const appHtml = renderToString(
           <Provider store={store}>
             <RouterContext {...props} />

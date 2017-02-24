@@ -10,14 +10,14 @@ import { connect } from 'react-redux';
 }))
 class LogInOutButton extends React.Component {
   render() {
-    let text = 'Login';
+    let text = 'Sign in with Github';
     let href = '/login';
     if (this.props.user && this.props.user.name) {
       text = 'Logout';
       href = '/logout';
     }
     return (
-      <a href={href}><li className="navItem">{text}</li></a>
+      <a href={href}><li className="button">{text}</li></a>
     );
   }
 }

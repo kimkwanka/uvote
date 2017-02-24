@@ -1,5 +1,4 @@
 const user = (state = {
-  loggedIn: false,
   name: null,
 }, action) => {
   switch (action.type) {

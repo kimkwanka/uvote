@@ -58,19 +58,15 @@ app.get('/login', passport.authenticate('github', { scope: ['user:email'] }), (r
 });
 
 app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/' }), (req, res) => {
-  res.redirect(`/account/${req.user.username}`);
+  res.redirect('/dashboard');
 });
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
   res.redirect('/');
 }
-function ensureUsername(req, res, next) {
-  if (req.user.username === req.params.username) { return next(); }
-  res.redirect('/');
-}
 
-app.get('/account/:username', ensureAuthenticated, ensureUsername, (req, res, next) => {
+app.get('/dashboard', ensureAuthenticated, (req, res, next) => {
   next();
 });
 

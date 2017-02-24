@@ -4,9 +4,9 @@
 
 import React from 'react';
 import { render } from 'react-dom';
-import { Router, browserHistory } from 'react-router';
+import { Router, browserHistory, applyRouterMiddleware } from 'react-router';
 import { Provider } from 'react-redux';
-import routes from './routes';
+import getRoutes from './routes';
 import { getInitialStore } from './store';
 
 const store = getInitialStore();
@@ -20,9 +20,15 @@ store.subscribe(() => {
   console.log('Changed:', store.getState());
 });
 
+const xtraProps = {
+  renderRouteComponent: child => (
+    React.cloneElement(child, { auth: store.getState().user.name !== null })
+  ),
+};
+
 render(
   <Provider store={store}>
-    <Router routes={routes} history={browserHistory} />
+    <Router routes={getRoutes(store)} history={browserHistory} render={applyRouterMiddleware(xtraProps)} />
   </Provider>
   ,
 document.getElementById('app'));

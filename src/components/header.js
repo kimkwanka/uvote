@@ -3,7 +3,7 @@
 /* eslint-disable react/prop-types */
 
 import React from 'react';
-import { IndexLink } from 'react-router';
+import { IndexLink, Link } from 'react-router';
 import LogInOutButton from './loginoutbutton';
 
 class Header extends React.Component {
@@ -16,7 +16,8 @@ class Header extends React.Component {
             <h2>uVote</h2>
           </div>
           <ul className="nav" role="navigation">
-            <IndexLink to="/" activeClassName="active"><li className="navItem">Home</li></IndexLink>
+            <IndexLink to="/" activeClassName="active"><li className="navItem">Polls</li></IndexLink>
+            <Link to="/dashboard" activeClassName="active"><li className="navItem">Dashboard</li></Link>
             <LogInOutButton />
           </ul>
           <div className="navUser">

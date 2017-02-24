@@ -8,7 +8,12 @@ import LogInOutButton from './loginoutbutton';
 
 class Header extends React.Component {
   render() {
-    const greeting = this.props.userName ? `Hello, ${this.props.userName}` : '';
+    let greeting = '';
+    let dashLink = null;
+    if (this.props.userName) {
+      greeting = `Hello, ${this.props.userName}`;
+      dashLink = <Link to="/dashboard" activeClassName="active"><li className="navItem">Dashboard</li></Link>;
+    }
     return (
       <header>
         <nav className="container">
@@ -17,7 +22,7 @@ class Header extends React.Component {
           </div>
           <ul className="nav" role="navigation">
             <IndexLink to="/" activeClassName="active"><li className="navItem">Polls</li></IndexLink>
-            <Link to="/dashboard" activeClassName="active"><li className="navItem">Dashboard</li></Link>
+            {dashLink}
             <LogInOutButton />
           </ul>
           <div className="navUser">

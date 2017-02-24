@@ -64,14 +64,19 @@ li.button
     center(1080px)
 
 .poll
+    transition all 0.5s ease-out
     position relative
-    //display flex
     justify-content: center
     border: 1px solid #fafafa
     box-shadow: 1px 1px 3px gray
     border-radius 7px
     margin-bottom 30px
     clearfix()
+
+a:hover
+    .poll
+        border: 1px solid lighten($cAccent, 0.5)
+        box-shadow: 1px 1px 3px $cAccent
 
 .pollDeleteButton
     background: $cAccent

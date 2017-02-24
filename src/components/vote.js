@@ -3,14 +3,13 @@
 import React from 'react';
 // import Poll from './poll';
 
-class Dashboard extends React.Component {
+class Vote extends React.Component {
   render() {
     return (
       <div className="container">
-        <h1>Dashboard</h1>
-        <button>Create Poll</button>
+        <h1>Vote</h1>
       </div>
     );
   }
 }
-export default Dashboard;
+export default Vote;

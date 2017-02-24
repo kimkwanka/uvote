@@ -5,6 +5,7 @@
 /* eslint-disable react/no-array-index-key */
 
 import React from 'react';
+import { Link } from 'react-router';
 
 class Poll extends React.Component {
   componentDidMount() {
@@ -66,16 +67,20 @@ class Poll extends React.Component {
       deleteButton = <button className="pollDeleteButton" type="button">X</button>;
       author = <h5 className="pollAuthor">by {this.props.author}</h5>;
     }
+    const encodedQ = encodeURIComponent(this.props.question); // Encode to keep question marks intact
+    const href = `/poll/${this.props.author}/${encodedQ}`;
     return (
-      <div className="poll">
-        <h2 className="pollQuestion">{this.props.question}</h2>
-        {author}
-        <div className="pollGraph">
-          <canvas id={`ctx${this.props.pId}`} width="200" height="200" />
+      <Link to={href} activeClassName="active">
+        <div className="poll">
+          <h2 className="pollQuestion">{this.props.question}</h2>
+          {author}
+          <div className="pollGraph">
+            <canvas id={`ctx${this.props.pId}`} width="200" height="200" />
+          </div>
+          {options}
+          {deleteButton}
         </div>
-        {options}
-        {deleteButton}
-      </div>
+      </Link>
     );
   }
 }

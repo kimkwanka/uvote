@@ -4,31 +4,17 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import Nav from './nav';
+import Header from './header';
 
 @connect(store => ({
   user: store.user,
 }))
 class Layout extends React.Component {
   render() {
-    let navUserName = null;
-
-    if (this.props.user && this.props.user.name !== null) {
-      navUserName = <h4>Hello, {this.props.user.name}</h4>;
-    }
+    const userName = (this.props.user.name !== null) ? this.props.user.name : null;
     return (
       <div>
-        <header>
-          <div className="container">
-            <div className="navLogo">
-              <h2>uVote</h2>
-            </div>
-            <Nav />
-            <div className="navUser">
-              {navUserName}
-            </div>
-          </div>
-        </header>
+        <Header userName={userName} />
         <main>
           {this.props.children}
         </main>

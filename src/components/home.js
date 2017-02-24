@@ -2,7 +2,6 @@
 /* eslint-disable react/prefer-stateless-function */
 
 import React from 'react';
-import SignIn from './signin';
 
 class Home extends React.Component {
   render() {
@@ -10,8 +9,8 @@ class Home extends React.Component {
       <div>
         <div className="container">
           <h1>Home</h1>
+          <a className="button" href="/login">Sign in with Github</a>
         </div>
-        <SignIn />
       </div>
     );
   }

@@ -52,17 +52,14 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.post('/login',
-  passport.authenticate('github', { scope: ['user:email'] }),
-  (req, res) => {
+app.get('/login', passport.authenticate('github', { scope: ['user:email'] }), (req, res) => {
     // The request will be redirected to GitHub for authentication, so this
     // function will not be called.
-  });
-app.get('/auth/github/callback',
-  passport.authenticate('github', { failureRedirect: '/' }),
-  (req, res) => {
-    res.redirect(`/account/${req.user.username}`);
-  });
+});
+
+app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/' }), (req, res) => {
+  res.redirect(`/account/${req.user.username}`);
+});
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }

@@ -28,7 +28,7 @@ class Poll extends React.Component {
       <div className="poll">
         <h2 className="pollQuestion">{this.props.question}</h2>
         {author}
-        <PollChart pid={this.props.pId} options={this.props.options} votes={this.props.votes} />
+        <PollChart pId={this.props.pId} options={this.props.options} votes={this.props.votes} />
         {options}
         {deleteButton}
       </div>

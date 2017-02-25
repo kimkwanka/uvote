@@ -36,9 +36,6 @@ class Vote extends React.Component {
       <div className="container">
         <h1>Vote</h1>
         {poll}
-        <button onClick={this.handleClick} data-id="0">VOTE</button>
-        <button onClick={this.handleClick} data-id="1">VOTE</button>
-        <button onClick={this.handleClick} data-id="2">VOTE</button>
       </div>
     );
   }

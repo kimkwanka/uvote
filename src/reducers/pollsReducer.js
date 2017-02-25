@@ -24,6 +24,11 @@ const polls = (state = [
         ...state.slice(0, action.pollId),
         ...state.slice(action.pollId + 1),
       ];
+    case 'CREATE_POLL':
+      return [
+        action.poll,
+        ...state.slice(0),
+      ];
     default:
       return state;
   }

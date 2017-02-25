@@ -1,8 +1,7 @@
-export function addPoll(question, options) {
+export function createPoll(poll) {
   return {
-    type: 'ADD_POLL',
-    question,
-    options,
+    type: 'CREATE_POLL',
+    poll,
   };
 }
 

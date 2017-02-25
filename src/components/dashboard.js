@@ -5,6 +5,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import { createPoll } from '../actions/pollActions';
 import Poll from './poll';
 
 const getUserPolls = (polls, username) => {
@@ -24,6 +25,26 @@ const getUserPolls = (polls, username) => {
   polls: store.polls,
 }))
 class Dashboard extends React.Component {
+  constructor() {
+    super();
+    this.newPoll = {
+      question: '',
+      options: ['', ''],
+      votes: [0, 0],
+      author: '',
+    };
+  }
+  onCreateClick = () => {
+    this.newPoll.author = this.props.user.name;
+    this.props.dispatch(createPoll(this.newPoll));
+  }
+  handleChange = (e, prop) => {
+    if (prop === 'question') {
+      this.newPoll.question = e.target.value;
+    } else {
+      this.newPoll.options[prop] = e.target.value;
+    }
+  }
   addOption = () => {
 
   }
@@ -33,15 +54,15 @@ class Dashboard extends React.Component {
       <div className="container">
         <h1 className="pageHeadline">Create a Poll</h1>
         <form action="post">
-          <label>Poll question:</label>
-          <input type="text" placeholder="Who is your favorite Captain?" />
-          <label>Options:</label>
-          <input type="text" placeholder="Picard" />
-          <input type="text" placeholder="Kirk" />
+          <label htmlFor="question">Poll question:</label>
+          <input id="question" type="text" placeholder="Who is your favorite Captain?" onChange={e => this.handleChange(e, 'question')} />
+          <label htmlFor="option0">Options:</label>
+          <input id="option0" type="text" placeholder="Picard" onChange={e => this.handleChange(e, 0)} />
+          <input id="option1" type="text" placeholder="Kirk" onChange={e => this.handleChange(e, 1)} />
         </form>
         <div className="buttonWrap">
           <button>Add option</button>
-          <button className="createPollButton">Create the Poll</button>
+          <button className="createPollButton" onClick={this.onCreateClick}>Create the Poll</button>
         </div>
         <h1 className="pageHeadline">My Polls</h1>
         {polls}

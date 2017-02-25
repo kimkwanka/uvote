@@ -6,11 +6,10 @@ export function addPoll(question, options) {
   };
 }
 
-export function deletePoll(question, options) {
+export function deletePoll(pollId) {
   return {
     type: 'DELETE_POLL',
-    question,
-    options,
+    pollId,
   };
 }
 

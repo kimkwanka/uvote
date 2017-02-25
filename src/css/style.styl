@@ -17,6 +17,7 @@ body
 header
     background $cBack2
     color $cHeaderT
+    box-shadow: 1px 1px 3px #aaa
 
 .navLogo
     float left
@@ -58,10 +59,26 @@ li.button
     vertical-align: top
     box-shadow: none
 .active
-     box-shadow: 0px 2px $cAccent
+    box-shadow: 0px 2px $cAccent
 
 .container
     center(1080px)
+.pageHeadline
+    border: 1px solid #fafafa
+    margin 45px 0
+    padding 10px 30px
+    box-shadow: 1px 1px 3px #aaa
+    border-radius: 7px
+
+.subHeadline
+    margin 40px 0px
+.createPollButton
+    background $cAccent
+    border 1px solid $cAccent
+    margin-left 30px
+.buttonWrap
+    text-align: center
+    margin-bottom: 30px
 
 .poll
     transition all 0.5s ease-out
@@ -93,6 +110,7 @@ a:hover
     border none
 
 .pollQuestion
+    font-weight: bold
     margin-top 20px
     text-align: center
 .pollAuthor

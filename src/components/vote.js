@@ -34,7 +34,7 @@ class Vote extends React.Component {
     const poll = (p !== null) ? <Poll mode="vote" pId={this.index} question={p.question} options={p.options} votes={p.votes} author={p.author} /> : null;
     return (
       <div className="container">
-        <h1>Vote</h1>
+        <h1 className="pageHeadline">Vote</h1>
         {poll}
       </div>
     );

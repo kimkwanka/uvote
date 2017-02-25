@@ -35,41 +35,43 @@ class PollChart extends React.Component {
         backgroundColor.push(`rgba(${tmp}, 0.2)`);
         borderColor.push(`rgba(${tmp}, 1.0)`);
       });
-      if (!this.chart) {
-        const Chart = require('chart.js'); // eslint-disable-line
-        const ctx = document.getElementById(`ctx${this.props.pId}`);
-        Chart.defaults.global.defaultFontFamily = 'Roboto';
-        Chart.defaults.global.defaultFontStyle = 'normal';
-        Chart.defaults.global.defaultFontSize = 16;
-        // eslint-disable-next-line
-        this.chart = new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels,
-            datasets: [{
-              label: '# of Votes',
-              data,
-              backgroundColor,
-              borderColor,
-              borderWidth: 1,
+      // Destroy the old chart, so when deleting polls the remaining
+      // ones don't end up with the wrong chart attached
+      if (this.chart) {
+        this.chart.destroy();
+      }
+      const Chart = require('chart.js');
+      const ctx = document.getElementById(`ctx${this.props.pId}`);
+      Chart.defaults.global.defaultFontFamily = 'Roboto';
+      Chart.defaults.global.defaultFontStyle = 'normal';
+      Chart.defaults.global.defaultFontSize = 16;
+
+      this.chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [{
+            label: '# of Votes',
+            data,
+            backgroundColor,
+            borderColor,
+            borderWidth: 1,
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true,
+                // eslint-disable-next-line
+                callback: (value) => { if (value % 1 === 0) { return value; } },
+              },
             }],
           },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-              yAxes: [{
-                ticks: {
-                  beginAtZero: true,
-                },
-              }],
-            },
-          },
-        });
-      } else {
-        this.chart.data.datasets[0].data = data;
-        this.chart.update();
-      }
+        },
+      });
     }
   }
   render() {

@@ -26,8 +26,8 @@ const polls = (state = [
       ];
     case 'CREATE_POLL':
       return [
-        action.poll,
         ...state.slice(0),
+        action.poll,
       ];
     default:
       return state;

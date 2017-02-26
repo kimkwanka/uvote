@@ -17,7 +17,6 @@ class Home extends React.Component {
     return (
       <div>
         <div className="container">
-          <h1 className="pageHeadline">Latest Polls</h1>
           {polls}
         </div>
       </div>

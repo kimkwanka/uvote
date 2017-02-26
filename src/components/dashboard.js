@@ -14,7 +14,7 @@ const getUserPolls = (polls, username) => {
   if (polls !== []) {
     polls.forEach((p, i) => {
       if (p.author === username) {
-        retPolls.unshift(<Poll mode="edit" key={i} pId={i} question={p.question} options={p.options} votes={p.votes} author={p.author} />);
+        retPolls.unshift(<div key={i} className="pollDashContainer"><Poll mode="edit" key={i} pId={i} question={p.question} options={p.options} votes={p.votes} author={p.author} /></div>);
       }
     });
   }
@@ -32,6 +32,8 @@ class Dashboard extends React.Component {
       question: '',
       options: ['', ''],
       votes: [0, 0],
+      voterNames: [],
+      voterIPs: [],
       author: '',
     };
   }
@@ -42,6 +44,8 @@ class Dashboard extends React.Component {
       question: '',
       options: ['', ''],
       votes: [0, 0],
+      voterNames: [],
+      voterIPs: [],
       author: '',
     };
     const inputs = document.getElementsByTagName('INPUT');
@@ -67,8 +71,7 @@ class Dashboard extends React.Component {
     const options = this.newPoll.options.map((o, i) => <input key={i} id={`option${i}`} type="text" placeholder={`Enter Option No. ${i}`} onChange={e => this.handleChange(e, i)} />);
     return (
       <div className="container">
-        <h1 className="pageHeadline">Create a Poll</h1>
-        <form action="post">
+        <form className="createPollForm" action="">
           <label htmlFor="question">Poll question:</label>
           <input id="question" type="text" placeholder="Enter your question" onChange={e => this.handleChange(e, 'question')} />
           <label htmlFor="option0">Options:</label>
@@ -78,7 +81,6 @@ class Dashboard extends React.Component {
           <button onClick={this.onAddOptClick}>Add option</button>
           <button className="createPollButton" onClick={this.onCreateClick}>Create the Poll</button>
         </div>
-        <h1 className="pageHeadline">My Polls</h1>
         {polls}
       </div>
     );

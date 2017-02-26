@@ -8,7 +8,8 @@ import { createInitialStore } from './store';
 
 export default function serverRenderer() {
   return (req, res, next) => {
-    const state = req.user ? { user: { name: req.user.username } } : { user: { name: null } };
+    const ip = req.headers['x-forwarded-for'] || req.ip;
+    const state = req.user ? { user: { name: req.user.username, ip } } : { user: { name: null, ip } };
     const store = createInitialStore(state);
 
     match({ routes: getRoutes(store), location: req.url }, (err, redirect, props) => {

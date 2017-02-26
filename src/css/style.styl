@@ -66,6 +66,7 @@ li.button
 
 .container
     center(1080px)
+
 .pageHeadline
     border: 1px solid #fafafa
     margin 45px 0
@@ -75,13 +76,30 @@ li.button
 
 .subHeadline
     margin 40px 0px
+
+.belowPollText
+    text-align: center
+    margin-top 80px
+.alreadyVotedText
+    text-align: center
+    margin-top 40px
+    color #aaa
+
+.linkToPoll
+    width 100%
+    color #a06cf6
 .createPollButton
     background $cAccent
     border 1px solid $cAccent
     margin-left 30px
+.createPollForm
+    margin-top: 40px
 .buttonWrap
     text-align: center
     margin-bottom: 30px
+
+.pollDashContainer
+    column(1/2.1)
 
 .poll
     transition all 0.5s ease-out
@@ -90,6 +108,7 @@ li.button
     border: 1px solid #fafafa
     box-shadow: 1px 1px 3px gray
     border-radius 7px
+    margin-top 40px
     margin-bottom 30px
     clearfix()
 a
@@ -102,23 +121,30 @@ a:hover
         box-shadow: 1px 1px 3px $cAccent
 
 .pollDeleteButton
+    visibility: hidden
+    opacity 0
     background: $cAccent
     position absolute
-    top 5px
-    right 5px
+    top -20px
+    right -20px
     padding 12px
     line-height: 4px
     font-size 130%
     border-radius: 7px
     border none
-
+.poll:hover
+    .pollDeleteButton
+        visibility: visible
+        opacity 1
 .pollQuestion
     font-weight: bold
     margin-top 20px
     text-align: center
+
 .pollAuthor
     text-align: center
     color lightgray
+
 .pollOption
     text-align: center
     width: 99%
@@ -127,9 +153,11 @@ a:hover
     border-radius: 7px
     padding 5px
     box-shadow: 1px 1px 3px #aaa
+
 .pollChart
     width 100%
     clearfix()
+
 .pollButton
     font-family: 'Roboto'
     text-transform: none

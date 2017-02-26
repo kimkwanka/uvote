@@ -12,10 +12,12 @@ export function deletePoll(pollId) {
   };
 }
 
-export function votePoll(pollId, option) {
+export function votePoll(pollId, option, voterName, voterIP) {
   return {
     type: 'VOTE_POLL',
     pollId,
     option,
+    voterName,
+    voterIP,
   };
 }

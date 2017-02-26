@@ -33,6 +33,7 @@ app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'pug');
 // Enable Webpack Hot Reload in dev
 webpackDevHelper.useWebpackMiddleware(app);
+// ---------------- TODO: ---------------
 // Serve static assets when in production
 // app.use(express.static(path.join(__dirname, '../public')));
 

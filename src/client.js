@@ -12,7 +12,9 @@ import { getInitialStore } from './store';
 const store = getInitialStore();
 
 // Use style-loader for dev
+// eslint-disable-next-line
 require('!style-loader!css-loader!stylus-loader!./css/style.styl');
+// ---------------- TODO: ---------------
 // Only require and let ExtractTextPlugin write a .css file in production
 // require("./css/style.styl");
 

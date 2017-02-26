@@ -1,16 +1,25 @@
 const poll = (state = {}, action) => {
-  const votesCopy = state.votes.slice(0);
-  const newVoterNames = (action.voterName) ?
-                        state.voterNames.concat([action.voterName]) : state.voterNames.concat([]);
-  const newVoterIPs = state.voterIPs.concat([action.voterIP]);
   switch (action.type) {
-    case 'VOTE_POLL':
-      votesCopy[action.option] += 1;
+    case 'VOTE_POLL': {
+      const newVotes = state.votes.slice(0);
+      const newVoterNames = (action.voterName) ?
+                        state.voterNames.concat([action.voterName]) : state.voterNames.concat([]);
+      const newVoterIPs = state.voterIPs.concat([action.voterIP]);
+      newVotes[action.option] += 1;
       return Object.assign({}, state, {
-        votes: votesCopy,
+        votes: newVotes,
         voterNames: newVoterNames,
         voterIPs: newVoterIPs,
       });
+    }
+    case 'ADD_POLL_OPT': {
+      const newOptions = state.options.concat([action.option]);
+      const newVotes = state.votes.concat([0]);
+      return Object.assign({}, state, {
+        options: newOptions,
+        votes: newVotes,
+      });
+    }
     default:
       return state;
   }
@@ -23,6 +32,7 @@ const polls = (state = [
   { question: 'Why did the chicken cross the street?', options: ['Personal reasons', 'Because it wanted to get to the other side', 'Beats me...'], votes: [3, 1, 6], author: 'kimkwanka', voterIPs: [], voterNames: [] },
 ], action) => {
   switch (action.type) {
+    case 'ADD_POLL_OPT':
     case 'VOTE_POLL':
       return state.map((p, i) => ((i !== action.pollId) ? p : poll(p, action)));
     case 'DELETE_POLL':

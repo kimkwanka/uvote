@@ -21,3 +21,12 @@ export function votePoll(pollId, option, voterName, voterIP) {
     voterIP,
   };
 }
+
+export function addPollOption(pollId, option) {
+  return {
+    type: 'ADD_POLL_OPT',
+    pollId,
+    option,
+  };
+}
+

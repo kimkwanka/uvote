@@ -23,9 +23,9 @@ class Poll extends React.Component {
   }
   render() {
     let question = this.props.question;
-    const maxStrLength = 28;
-    if (this.props.mode === 'edit' && question.length > maxStrLength) {
-      question = `${question.substring(0, maxStrLength)}...`;
+    const maxQLength = 28;
+    if (this.props.mode === 'edit' && question.length > maxQLength) {
+      question = `${question.substring(0, maxQLength)}...`;
     }
     let options = null;
     const deleteButton = (this.props.mode === 'edit') ? <button onClick={this.onDeleteClick} className="pollDeleteButton" type="button">X</button> : null;

@@ -22,15 +22,30 @@ class Poll extends React.Component {
     this.props.dispatch(deletePoll(this.props.pId));
   }
   render() {
-    let question = this.props.question;
+    /* A poll can be in 3 different modes depending on where it is shown:
+      1. preview - on the polls overview
+      2. edit - on user's dashboard
+      3. vote - when on that poll's voting page
+    */
     const maxQLength = 28;
-    if (this.props.mode === 'edit' && question.length > maxQLength) {
-      question = `${question.substring(0, maxQLength)}...`;
-    }
+
+    let content = null;
+    let question = <h2 className="pollQuestion">{this.props.question}</h2>;
     let options = null;
-    const deleteButton = (this.props.mode === 'edit') ? <button onClick={this.onDeleteClick} className="pollDeleteButton" type="button">X</button> : null;
     let author = null;
-    if (this.props.mode === 'vote') {
+    let deleteButton = null;
+
+    const encodedQ = encodeURIComponent(this.props.question);
+    const href = `/poll/${this.props.author}/${encodedQ}`;
+
+    if (this.props.mode === 'edit') {
+      // Shorten the question for the 2 column style in edit mode
+      if (this.props.question.length > maxQLength) {
+        question = <h2 className="pollQuestion">{`${this.props.question.substring(0, maxQLength)}...`}</h2>;
+      }
+      deleteButton = <button onClick={this.onDeleteClick} className="pollDeleteButton" type="button">X</button>;
+    } else if (this.props.mode === 'vote') {
+      // Show voting buttons depending on whether the user already voted
       if (!this.props.alreadyVoted) {
         options = this.props.options.map((option, i) => (<button key={i} data-id={i} onClick={this.onVoteClick} className="pollButton" type="button">{option}</button>));
       } else {
@@ -40,22 +55,22 @@ class Poll extends React.Component {
     }
     const innerContent = (
       <div className="poll">
-        <h2 className="pollQuestion">{question}</h2>
+        {question}
         {author}
         <PollChart pId={this.props.pId} options={this.props.options} votes={this.props.votes} />
         {options}
         {deleteButton}
       </div>
     );
-    let content = (innerContent);
-    if (this.props.mode !== 'vote') {
-      // Encode to keep question marks intact
-      const encodedQ = encodeURIComponent(this.props.question);
-      const href = `/poll/${this.props.author}/${encodedQ}`;
+    // Make the whole poll a link to its voting page, when not in vote mode
+    if (this.props.mode === 'vote') {
+      content = innerContent;
+    } else {
       content = (<Link to={href} activeClassName="active">{innerContent}</Link>);
     }
+
     return (
-      <div>{ content }</div>
+      content
     );
   }
 }

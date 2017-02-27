@@ -27,15 +27,10 @@ store.subscribe(() => {
   });
 });
 
-const xtraProps = {
-  renderRouteComponent: child => (
-    React.cloneElement(child, { auth: store.getState().user.name !== null })
-  ),
-};
-
+// Give routes access to our store for authentication checking
 render(
   <Provider store={store}>
-    <Router routes={getRoutes(store)} history={browserHistory} render={applyRouterMiddleware(xtraProps)} />
+    <Router routes={getRoutes(store)} history={browserHistory} />
   </Provider>
   ,
 document.getElementById('app'));

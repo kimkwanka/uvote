@@ -21,6 +21,9 @@ const ensureAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) { return next(); }
   res.redirect('/');
 };
+
+const Store = require('./db');
+
 const app = express();
 
 app.use(session({ secret: '11THIS IS A SECRET STRING AND STUFF FOR HASHING THE SESSION11', resave: false, saveUninitialized: false }));
@@ -56,6 +59,19 @@ app.get('/logout', (req, res) => {
 app.get('/dashboard', ensureAuthenticated, (req, res, next) => {
   next();
 });
+
+app.put('/save', (req, res) => {
+  //eslint-disable-next-line
+  Store.findOneAndUpdate({}, { $set: { polls: req.body } }, { upsert: true, new: true }, (dbErr, newStore) => {
+    if (dbErr) {
+      res.status(500).send(dbErr);
+      console.log(dbErr);
+    } else {
+      res.send('Saved successfully');
+    }
+  });
+});
+
 app.get('*', serverRenderer());
 
 app.listen(PORT, () => {

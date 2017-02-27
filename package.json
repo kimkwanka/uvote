@@ -25,6 +25,7 @@
     "webpack-dev-server": "^2.4.0"
   },
   "dependencies": {
+    "axios": "^0.15.3",
     "babel-core": "^6.23.1",
     "babel-register": "^6.23.0",
     "body-parser": "^1.16.1",
@@ -35,6 +36,8 @@
     "extract-text-webpack-plugin": "beta",
     "install": "^0.8.7",
     "jeet": "^7.1.0",
+    "mongodb": "^2.2.24",
+    "mongoose": "^4.8.5",
     "passport": "^0.3.2",
     "passport-github2": "^0.1.10",
     "pug": "^2.0.0-beta11",

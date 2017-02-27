@@ -26,10 +26,10 @@ const poll = (state = {}, action) => {
 };
 
 const polls = (state = [
-  { question: 'Is Luigi a sexy Mofo???', options: ['Oh yeah', 'Please, no'], votes: [3, 7], author: 'quincy', voterIPs: ['::ffff:127.0.0.1'], voterNames: [] },
-  { question: 'What is the answer to life the universe and everything?', options: ['42', '43', 'Does not compute'], votes: [13, 7, 6], author: 'kimkwanka', voterIPs: [], voterNames: ['kimkwanka'] },
-  { question: 'Can you handle this?', options: ['I guess...', 'Maybe?', 'No way!'], votes: [5, 8, 2], author: 'quancy', voterIPs: [], voterNames: [] },
-  { question: 'Why did the chicken cross the street?', options: ['Personal reasons', 'Because it wanted to get to the other side', 'Beats me...'], votes: [3, 1, 6], author: 'kimkwanka', voterIPs: [], voterNames: [] },
+  // { question: 'Is Luigi a sexy Mofo???', options: ['Oh yeah', 'Please, no'], votes: [3, 7], author: 'quincy', voterIPs: ['::ffff:127.0.0.1'], voterNames: [] },
+  // { question: 'What is the answer to life the universe and everything?', options: ['42', '43', 'Does not compute'], votes: [13, 7, 6], author: 'kimkwanka', voterIPs: [], voterNames: ['kimkwanka'] },
+  // { question: 'Can you handle this?', options: ['I guess...', 'Maybe?', 'No way!'], votes: [5, 8, 2], author: 'quancy', voterIPs: [], voterNames: [] },
+  // { question: 'Why did the chicken cross the street?', options: ['Personal reasons', 'Because it wanted to get to the other side', 'Beats me...'], votes: [3, 1, 6], author: 'kimkwanka', voterIPs: [], voterNames: [] },
 ], action) => {
   switch (action.type) {
     case 'ADD_POLL_OPT':

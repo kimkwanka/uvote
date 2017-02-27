@@ -3,16 +3,16 @@
 import { createStore } from 'redux';
 import reducer from './reducers';
 
-const getInitialStore = () => {
+const getHydratedStore = () => {
   const preloadedState = Object.assign({}, window.__PRELOADED_STATE__);
   const store = createStore(reducer, preloadedState);
   delete window.__PRELOADED_STATE__;
   return store;
 };
 
-const createInitialStore = state => (createStore(reducer, state));
+const hydrateStore = state => (createStore(reducer, state));
 
 export {
-  createInitialStore,
-  getInitialStore,
+  hydrateStore,
+  getHydratedStore,
 };

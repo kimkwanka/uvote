@@ -1,32 +1,42 @@
 /* eslint-disable react/jsx-filename-extension */
+/* eslint-disable consistent-return */
+
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 import { Provider } from 'react-redux';
 import getRoutes from './routes';
-import { createInitialStore } from './store';
+import { hydrateStore } from './store';
+import Store from './db';
 
 export default function serverRenderer() {
   return (req, res, next) => {
-    const ip = req.headers['x-forwarded-for'] || req.ip;
-    const state = req.user ? { user: { name: req.user.username, ip } } : { user: { name: null, ip } };
-    const store = createInitialStore(state);
+    Store.findOne((dbErr, dbStore) => {
+      // eslint-disable-next-line
+      if (dbErr) return console.log(dbErr);
+      const polls = dbStore ? dbStore.polls : [];
 
-    match({ routes: getRoutes(store), location: req.url }, (err, redirect, props) => {
-      if (err) {
-        res.status(500).send(err.message);
-      } else if (redirect) {
-        res.redirect(redirect.pathname + redirect.search);
-      } else if (props) {
-        const appHtml = renderToString(
-          <Provider store={store}>
-            <RouterContext {...props} />
-          </Provider>,
-        );
-        res.status(200).render('index', { content: appHtml, preloadedState: store.getState(), title: 'uVote' });
-      } else {
-        next(); // Let Express handle all other routes
-      }
+      const ip = req.headers['x-forwarded-for'] || req.ip;
+      const user = req.user ? { name: req.user.username, ip } : { name: null, ip };
+
+      const store = hydrateStore({ user, polls });
+
+      match({ routes: getRoutes(store), location: req.url }, (matchErr, redirect, props) => {
+        if (matchErr) {
+          res.status(500).send(matchErr.message);
+        } else if (redirect) {
+          res.redirect(redirect.pathname + redirect.search);
+        } else if (props) {
+          const appHtml = renderToString(
+            <Provider store={store}>
+              <RouterContext {...props} />
+            </Provider>,
+          );
+          res.status(200).render('index', { content: appHtml, preloadedState: store.getState(), title: 'uVote' });
+        } else {
+          next(); // Let Express handle all other routes
+        }
+      });
     });
   };
 }

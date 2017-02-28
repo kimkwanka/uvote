@@ -1,14 +1,19 @@
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable consistent-return */
 /* eslint-disable no-console */
+/* eslint-disable global-require */
 
 const serverRenderer = require('./server.render.js').default;
-const webpackDevHelper = require('./hot.dev.js');
 
+let webpackDevHelper = null;
+if (process.env.NODE_ENV !== 'production') {
+  webpackDevHelper = require('./hot.dev.js');
+}
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const FileStore = require('session-file-store')(session);
 const passport = require('passport');
 const GitHubStrategy = require('passport-github2').Strategy;
 
@@ -26,7 +31,13 @@ const Store = require('./db');
 
 const app = express();
 
-app.use(session({ secret: '11THIS IS A SECRET STRING AND STUFF FOR HASHING THE SESSION11', resave: false, saveUninitialized: false }));
+app.use(session({
+  store: new FileStore(),
+  secret: '11THIS IS A SECRET STRING AND STUFF FOR HASHING THE SESSION11',
+  resave: false,
+  saveUninitialized: false,
+}));
+//app.use(session({ secret: '11THIS IS A SECRET STRING AND STUFF FOR HASHING THE SESSION11', resave: false, saveUninitialized: false }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(passport.initialize());
@@ -34,11 +45,13 @@ app.use(passport.session());
 // Enable Pug Templating engine
 app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'pug');
+
 // Enable Webpack Hot Reload in dev
-webpackDevHelper.useWebpackMiddleware(app);
-// ---------------- TODO: ---------------
-// Serve static assets when in production
-// app.use(express.static(path.join(__dirname, '../public')));
+if (process.env.NODE_ENV !== 'production') {
+  webpackDevHelper.useWebpackMiddleware(app);
+} else {
+  app.use(express.static(path.join(__dirname, '../public')));
+}
 
 passport.use(new GitHubStrategy({ clientID, clientSecret, callbackURL },
   (accessToken, refreshToken, profile, done) => {
@@ -75,7 +88,7 @@ app.put('/save', (req, res) => {
 app.get('*', serverRenderer());
 
 app.listen(PORT, () => {
-  console.log(`Express server running at ${PORT}`);
+  console.log(`Express server running at ${PORT} in ${process.env.NODE_ENV || 'dev'} mode`);
 });
 
 /*

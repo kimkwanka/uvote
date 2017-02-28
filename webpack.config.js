@@ -1,22 +1,22 @@
-const debug = process.env.NODE_ENV !== 'production';
+const dev = process.env.NODE_ENV !== 'production';
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
-const fs = require('fs');
+// const fs = require('fs');
 
-const SERVER_BUILD_DIR = path.resolve(__dirname, './');
+// const SERVER_BUILD_DIR = path.resolve(__dirname, './');
 const CLIENT_BUILD_DIR = path.resolve(__dirname, 'public/');
 const APP_DIR = path.resolve(__dirname, 'src/');
 
 const configClient = {
-  entry: {
+  entry: dev ? {
     client: [path.join(APP_DIR, 'client.js'), 'webpack-hot-middleware/client', 'webpack/hot/dev-server'],
-    //vendor: ['react', 'react-dom', 'react-router',
-    //'webpack-hot-middleware/client', 'webpack/hot/dev-server'],
+  } : {
+    client: path.join(APP_DIR, 'client.js'),
   },
-  devtool: debug ? 'inline-sourcemap' : null,
+  devtool: dev ? 'inline-sourcemap' : false,
   output: {
-    path: '/', // CLIENT_BUILD_DIR,    //Needed for hotreload
+    path: CLIENT_BUILD_DIR,
     filename: 'bundle.js',
     publicPath: '/',
   },
@@ -25,15 +25,15 @@ const configClient = {
       {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
-        loaders: ['react-hot-loader', 'babel-loader'],
+        loaders: dev ? ['react-hot-loader', 'babel-loader'] : ['babel-loader'],
       },
       {
         test: /\.styl$/,
-        loader: ExtractTextPlugin.extract(['css-loader', 'stylus-loader']),
+        loader: dev ? ['style-loader', 'css-loader', 'stylus-loader'] : ExtractTextPlugin.extract(['css-loader', 'stylus-loader']),
       },
     ],
   },
-  plugins: debug ? [
+  plugins: dev ? [
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       filename: 'vendor.bundle.js',
@@ -41,8 +41,17 @@ const configClient = {
     }),
     new webpack.HotModuleReplacementPlugin(),
   ] : [
-    new webpack.optimize.DedupePlugin(),
+    new webpack.DefinePlugin({    // Needed for React production-ready version
+      'process.env': {
+        NODE_ENV: JSON.stringify('production'),
+      },
+    }),
     new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      filename: 'vendor.bundle.js',
+      minChunks: ({ resource }) => /node_modules/.test(resource),
+    }),
     new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
     new ExtractTextPlugin({ filename: 'style.css', allChunks: true }),
   ],

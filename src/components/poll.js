@@ -27,7 +27,7 @@ class Poll extends React.Component {
       2. edit - on user's dashboard
       3. vote - when on that poll's voting page
     */
-    const maxQLength = 28;
+    const maxQLength = 25;
 
     let content = null;
     let question = <h2 className="pollQuestion">{this.props.question}</h2>;

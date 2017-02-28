@@ -1,4 +1,4 @@
-const mongoURI = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/shorturl';
+const mongoURI = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/fcc';
 const mongoose = require('mongoose');
 
 mongoose.connect(mongoURI);

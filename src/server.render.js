@@ -9,6 +9,8 @@ import getRoutes from './routes';
 import { hydrateStore } from './store';
 import Store from './db';
 
+const cssLink = (process.env.NODE_ENV !== 'production') ? '' : '/style.css';
+
 export default function serverRenderer() {
   return (req, res, next) => {
     Store.findOne((dbErr, dbStore) => {
@@ -32,7 +34,8 @@ export default function serverRenderer() {
               <RouterContext {...props} />
             </Provider>,
           );
-          res.status(200).render('index', { content: appHtml, preloadedState: store.getState(), title: 'uVote' });
+
+          res.status(200).render('index', { content: appHtml, preloadedState: store.getState(), title: 'uVote', cssLink });
         } else {
           next(); // Let Express handle all other routes
         }

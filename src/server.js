@@ -20,7 +20,7 @@ const GitHubStrategy = require('passport-github2').Strategy;
 const PORT = process.env.PORT || 8080;
 const clientID = process.env.GITHUB_CLIENT_ID;
 const clientSecret = process.env.GITHUB_CLIENT_SECRET;
-const callbackURL = 'http://127.0.0.1:8080/auth/github/callback';
+const callbackURL = process.env.GITHUB_CALLBACK_URL || 'http://127.0.0.1:8080/auth/github/callback';
 
 const ensureAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) { return next(); }

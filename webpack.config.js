@@ -29,7 +29,7 @@ const configClient = {
       },
       {
         test: /\.styl$/,
-        loader: dev ? ['style-loader', 'css-loader', 'stylus-loader'] : ExtractTextPlugin.extract(['css-loader', 'stylus-loader']),
+        loader: dev ? ['style-loader', 'css-loader', 'postcss-loader', 'stylus-loader'] : ExtractTextPlugin.extract([{ loader: 'css-loader', options: { minimize: true } }, 'postcss-loader', 'stylus-loader']),
       },
     ],
   },

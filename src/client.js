@@ -16,11 +16,9 @@ const store = getHydratedStore();
 
 // Use style-loader for dev
 if (process.env.NODE_ENV !== 'production') {
-  console.log('NOT PROD')
   // eslint-disable-next-line
   require('!style-loader!css-loader!stylus-loader!./css/style.styl');
 } else {
-  console.log('PROD')
   require('./css/style.styl');
 }
 

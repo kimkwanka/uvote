@@ -40,7 +40,7 @@ class PollChart extends React.Component {
       if (this.chart) {
         this.chart.destroy();
       }
-      const Chart = require('chart.js');
+      const Chart = require('../../node_modules/chart.js/dist/Chart.min.js');
       const ctx = document.getElementById(`ctx${this.props.pId}`);
       Chart.defaults.global.defaultFontFamily = 'Roboto';
       Chart.defaults.global.defaultFontStyle = 'normal';

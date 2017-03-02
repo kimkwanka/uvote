@@ -13,7 +13,7 @@ import Poll from './poll';
 class Home extends React.Component {
   render() {
     // Since new polls get appended, reverse poll list to show newest polls first
-    const polls = this.props.polls.slice(0).reverse().map((p, i) => <Poll mode="preview" pId={i} key={i} question={p.question} options={p.options} votes={p.votes} author={p.author} />);
+    const polls = this.props.polls.slice(0).reverse().map((p, i) => <Poll mode="preview" pID={p.pID} key={p.pID} question={p.question} options={p.options} votes={p.votes} author={p.author} />);
     return (
       <div>
         <div className="container">

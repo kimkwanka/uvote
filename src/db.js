@@ -1,4 +1,4 @@
-const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/fcc';
+const mongoURI = 'mongodb://localhost:27017/fcc'; //process.env.MONGODB_URI || 'mongodb://localhost:27017/fcc';
 const mongoose = require('mongoose');
 
 mongoose.connect(mongoURI);
@@ -10,6 +10,7 @@ db.once('open', () => { /* Connection was established */ });
 
 const storeSchema = mongoose.Schema({
   polls: [{
+    pID: Number,
     question: String,
     options: [String],
     votes: [Number],

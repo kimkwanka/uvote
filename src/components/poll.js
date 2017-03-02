@@ -15,11 +15,11 @@ import PollChart from './pollchart';
 }))
 class Poll extends React.Component {
   onVoteClick = (e) => {
-    this.props.dispatch(votePoll(this.props.pId, e.target.getAttribute('data-id'), this.props.user.name, this.props.user.ip));
+    this.props.dispatch(votePoll(this.props.pID, e.target.getAttribute('data-id'), this.props.user.name, this.props.user.ip));
   }
   onDeleteClick = (e) => {
     e.preventDefault();
-    this.props.dispatch(deletePoll(this.props.pId));
+    this.props.dispatch(deletePoll(this.props.pID));
   }
   render() {
     /* A poll can be in 3 different modes depending on where it is shown:
@@ -57,7 +57,7 @@ class Poll extends React.Component {
       <div className="poll">
         {question}
         {author}
-        <PollChart pId={this.props.pId} options={this.props.options} votes={this.props.votes} />
+        <PollChart pID={this.props.pID} options={this.props.options} votes={this.props.votes} />
         {options}
         {deleteButton}
       </div>

@@ -31,6 +31,8 @@ const Store = require('./db');
 
 const app = express();
 
+const pollsReducer = require('./reducers/pollsReducer').default;
+
 app.use(session({
   store: new FileStore(),
   secret: '11THIS IS A SECRET STRING AND STUFF FOR HASHING THE SESSION11',
@@ -75,13 +77,25 @@ app.get('/dashboard', ensureAuthenticated, (req, res, next) => {
 
 app.put('/save', (req, res) => {
   //eslint-disable-next-line
-  Store.findOneAndUpdate({}, { $set: { polls: req.body } }, { upsert: true, new: true }, (dbErr, newStore) => {
+  let  delta = pollsReducer([], req.body);
+  // Grab the latest store from the db (if it exists) and create a new store by using the pollsReducer and sent action (req.body)
+  Store.findOne({}, (dbErr, curStore) => {
     if (dbErr) {
-      res.status(500).send(dbErr);
-      console.log(dbErr);
-    } else {
-      res.send('Saved successfully');
+      console.log('Error', dbErr);
+    } else if (curStore) {
+      // Note the toObject(). Without it, we get an Object with extra properties which doesn't work correctly with the pollsReducer
+      delta = pollsReducer(curStore.toObject().polls, req.body);
     }
+    // Update the store in the db (or create it)
+    Store.update({}, { $set: { polls: delta } }, { upsert: true, new: true }, (dbErr2, newStore) => {
+      if (dbErr2) {
+        res.status(500).send(dbErr2);
+        console.log(dbErr2);
+      } else {
+        res.send('Saved successfully');
+        console.log('Saved:', newStore);
+      }
+    });
   });
 });
 

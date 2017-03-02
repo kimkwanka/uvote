@@ -3,16 +3,24 @@
 /* eslint-disable import/no-webpack-loader-syntax*/
 /* eslint-disable no-unused-vars*/
 /* eslint-disable global-require */
-
-import React from 'react';
 import axios from 'axios';
+import React from 'react';
 import { render } from 'react-dom';
 import { Router, browserHistory, applyRouterMiddleware } from 'react-router';
 import { Provider } from 'react-redux';
 import getRoutes from './routes';
 import { getHydratedStore } from './store';
 
-const store = getHydratedStore();
+const sendToServer = store => next => action => {
+  axios.put('/save', action).then((res) => {
+    // console.log('RESPONSE:', res);
+    return next(action);
+  }).catch((err) => {
+    // console.log(err);
+  });
+};
+
+const store = getHydratedStore(sendToServer);
 
 // Use style-loader for dev
 if (process.env.NODE_ENV !== 'production') {
@@ -24,12 +32,14 @@ if (process.env.NODE_ENV !== 'production') {
 
 
 store.subscribe(() => {
-  axios.put('/save', store.getState().polls).then((res) => {
+/*  axios.put('/save', store.getState().polls).then((res) => {
     // console.log('RESPONSE:', res);
   }).catch((err) => {
     // console.log(err);
-  });
+  });*/
 });
+
+
 
 // Give routes access to our store for authentication checking
 render(

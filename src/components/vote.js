@@ -55,7 +55,7 @@ class Vote extends React.Component {
     const alreadyVoted = p.voterNames.indexOf(this.props.user.name) !== -1
                         || p.voterIPs.indexOf(this.props.user.ip) !== -1;
 
-    const poll = (p !== null) ? <Poll alreadyVoted={alreadyVoted} mode="vote" pId={this.index} question={p.question} options={p.options} votes={p.votes} author={p.author} /> : null;
+    const poll = (p !== null) ? <Poll alreadyVoted={alreadyVoted} mode="vote" pID={p.pID} question={p.question} options={p.options} votes={p.votes} author={p.author} /> : null;
     const addOpts = (!this.props.user.name) ? null : (
       <div>
         <label htmlFor="additionalOpt">Add a new option:</label>

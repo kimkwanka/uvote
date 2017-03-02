@@ -14,7 +14,7 @@ const getUserPolls = (polls, username) => {
   if (polls !== []) {
     polls.forEach((p, i) => {
       if (p.author === username) {
-        retPolls.unshift(<div key={i} className="pollDashContainer"><Poll mode="edit" key={i} pId={i} question={p.question} options={p.options} votes={p.votes} author={p.author} /></div>);
+        retPolls.unshift(<div key={p.pID} className="pollDashContainer"><Poll mode="edit" key={p.pID} pID={p.pID} question={p.question} options={p.options} votes={p.votes} author={p.author} /></div>);
       }
     });
   }
@@ -29,6 +29,7 @@ class Dashboard extends React.Component {
   constructor() {
     super();
     this.newPoll = {
+      pID: null,
       question: '',
       options: ['', ''],
       votes: [0, 0],
@@ -38,9 +39,11 @@ class Dashboard extends React.Component {
     };
   }
   onCreateClick = () => {
+    this.newPoll.pID = Date.now();
     this.newPoll.author = this.props.user.name;
     this.props.dispatch(createPoll(this.newPoll));
     this.newPoll = {
+      pID: null,
       question: '',
       options: ['', ''],
       votes: [0, 0],

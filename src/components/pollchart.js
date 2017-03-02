@@ -41,7 +41,7 @@ class PollChart extends React.Component {
         this.chart.destroy();
       }
       const Chart = require('../../node_modules/chart.js/dist/Chart.min.js');
-      const ctx = document.getElementById(`ctx${this.props.pId}`);
+      const ctx = document.getElementById(`ctx${this.props.pID}`);
       Chart.defaults.global.defaultFontFamily = 'Roboto';
       Chart.defaults.global.defaultFontStyle = 'normal';
       Chart.defaults.global.defaultFontSize = 16;
@@ -80,7 +80,7 @@ class PollChart extends React.Component {
     }
     return (
       <div className="pollChart">
-        <canvas id={`ctx${this.props.pId}`} width="200" height="200" />
+        <canvas id={`ctx${this.props.pID}`} width="200" height="200" />
       </div>
     );
   }

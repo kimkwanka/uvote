@@ -25,6 +25,8 @@ const poll = (state = {}, action) => {
   }
 };
 
+const sortByPollID = (a, b) => (a.pID - b.pID);
+
 const polls = (state = [
   // { question: 'Is Luigi a sexy Mofo???', options: ['Oh yeah', 'Please, no'], votes: [3, 7], author: 'quincy', voterIPs: ['::ffff:127.0.0.1'], voterNames: [] },
   // { question: 'What is the answer to life the universe and everything?', options: ['42', '43', 'Does not compute'], votes: [13, 7, 6], author: 'kimkwanka', voterIPs: [], voterNames: ['kimkwanka'] },
@@ -34,17 +36,27 @@ const polls = (state = [
   switch (action.type) {
     case 'ADD_POLL_OPT':
     case 'VOTE_POLL':
-      return state.map((p, i) => ((i !== action.pollId) ? p : poll(p, action)));
-    case 'DELETE_POLL':
+      return state.map(p => ((p.pID !== action.pollId) ? p : poll(p, action)));
+    case 'DELETE_POLL': {
+      console.log(action.pollId);
+      let index = -1;
+      for (let i = 0; i < state.length; i += 1) {
+        if (state[i].pID === action.pollId) {
+          index = i;
+          break;
+        }
+      }
+      console.log(index);
       return [
-        ...state.slice(0, action.pollId),
-        ...state.slice(action.pollId + 1),
+        ...state.slice(0, index),
+        ...state.slice(index + 1),
       ];
+    }
     case 'CREATE_POLL':
       return [
         ...state.slice(0),
         action.poll,
-      ];
+      ].sort(sortByPollID);
     default:
       return state;
   }
